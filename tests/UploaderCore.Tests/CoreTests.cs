@@ -189,4 +189,30 @@ public class CoreTests
         }
         finally { Directory.Delete(dir, true); }
     }
+
+    [Fact]
+    public void SetupIssuesNameWhatIsMissing()
+    {
+        L.Language = "en";
+        using var session = new Session();
+        Assert.Equal(2, session.SetupIssues().Count);
+        Assert.Contains("no roster", session.SetupIssues()[0]);
+        var team = session.Project.Match.Teams[0];
+        team.Label = "Fenerbahçe";
+        team.Players = [new Player { Number = "31", Name = "Shavon Shields" }];
+        Assert.StartsWith("Fenerbahçe: no jersey colour", session.SetupIssues()[0]);
+        team.Colors = ["sarı"];
+        Assert.Single(session.SetupIssues());
+    }
+
+    [Fact]
+    public void SummaryExplainsWhyNoPlayerWasFound()
+    {
+        L.Language = "en";
+        PhotoRow Row(bool analyzed, params string[] unresolved) => new("a.jpg", true, analyzed, null, [],
+            unresolved.Select(n => new UnresolvedNumber(n, default, null)).ToList(), false, "a.jpg", false, [], null, null, null);
+        Assert.Equal("Waiting for analysis", Session.Summary(Row(false)));
+        Assert.Equal("No number could be read", Session.Summary(Row(true)));
+        Assert.Equal("Numbers read but not matched to the roster: 31, 4", Session.Summary(Row(true, "31", "4", "31")));
+    }
 }

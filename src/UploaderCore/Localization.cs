@@ -36,6 +36,12 @@ public static class L
         ["Yükleme başlıyor…"] = "Starting the upload…",
         ["Maç kategorisi oluşturulamadı: {0}"] = "Could not create the match category: {0}",
         ["Yüklendi, ancak görünen kişiler eklenemedi: {0}"] = "Uploaded, but the depicted people could not be added: {0}",
+        ["{0}. takım"] = "Team {0}", ["Analiz bekliyor"] = "Waiting for analysis", ["Numara okunamadı"] = "No number could be read",
+        ["Okunan numara kadroyla eşleşmedi: {0}"] = "Numbers read but not matched to the roster: {0}",
+        ["{0}: kadro yok. \"Maç\" adımında takımı arayıp seçin ya da \"Kadrolar\" adımında oyuncuları elle ekleyin."] =
+            "{0}: no roster. Search for the team and pick it in the \"Match\" step, or add the players by hand in the \"Rosters\" step.",
+        ["{0}: forma rengi seçilmedi. \"Maç\" adımında bu maçtaki forma renklerini işaretleyin; renk olmadan numaralar takımla eşleştirilemez."] =
+            "{0}: no jersey colour selected. Tick this match's jersey colours in the \"Match\" step; without a colour, numbers cannot be matched to the team.",
         ["siyah"] = "black", ["beyaz"] = "white", ["gri"] = "grey", ["kırmızı"] = "red", ["turuncu"] = "orange",
         ["sarı"] = "yellow", ["yeşil"] = "green", ["turkuaz"] = "turquoise", ["mavi"] = "blue", ["lacivert"] = "navy",
         ["mor"] = "purple", ["pembe"] = "pink", ["bordo"] = "maroon",

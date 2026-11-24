@@ -108,6 +108,29 @@ public sealed partial class Session(ICredentialStore? credentials = null, string
         return rows;
     }
 
+    /// <summary>Oyuncu bulmayı engelleyen eksikler: kadrosu ya da forma rengi olmayan takımlar. Arayüz bunları uyarı olarak gösterir.</summary>
+    public List<string> SetupIssues()
+    {
+        var issues = new List<string>();
+        var teams = Project.Match.Teams;
+        for (var i = 0; i < teams.Count; i++)
+        {
+            var name = teams[i].Label.Length > 0 ? teams[i].Label : L.T("{0}. takım", i + 1);
+            if (teams[i].Players.Count == 0) issues.Add(L.T("{0}: kadro yok. \"Maç\" adımında takımı arayıp seçin ya da \"Kadrolar\" adımında oyuncuları elle ekleyin.", name));
+            else if (teams[i].Colors.Count == 0) issues.Add(L.T("{0}: forma rengi seçilmedi. \"Maç\" adımında bu maçtaki forma renklerini işaretleyin; renk olmadan numaralar takımla eşleştirilemez.", name));
+        }
+        return issues;
+    }
+
+    /// <summary>Bir fotoğrafın kart başlığı: bulunan oyuncular ya da neden bulunamadığı.</summary>
+    public static string Summary(PhotoRow row)
+    {
+        if (row.Players.Count > 0) return string.Join(", ", row.Players.Select(p => $"{p.Number} {p.Name}"));
+        if (!row.Analyzed) return L.T("Analiz bekliyor");
+        if (row.Unresolved.Count > 0) return L.T("Okunan numara kadroyla eşleşmedi: {0}", string.Join(", ", row.Unresolved.Select(u => u.Number).Distinct()));
+        return L.T("Numara okunamadı");
+    }
+
     public static List<PhotoRow> Ready(IEnumerable<PhotoRow> rows) => rows.Where(r => r.Include && r.Uploaded == null).ToList();
 
     public string Wikitext(PhotoRow row)
