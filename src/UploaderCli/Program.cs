@@ -22,6 +22,8 @@ switch (args[0])
     }
     case "analyze":
     {
+        // Model klasörde yoksa indirilir.
+        if (!FlorenceOcr.IsInstalled(args[1])) await ModelStore.Ensure(args[1]);
         using var ocr = new FlorenceOcr(args[1]);
         var analyzer = new ImageAnalyzer(ocr);
         foreach (var path in args.Skip(2))
